@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Floating PNGs</title>
+  <style>
+    .navbar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fef9f0;
+  border: 4px double #aa8855;
+  border-radius: 16px;
+  padding: 16px 20px;
+  width: 220px;
+  font-size: 14px;
+  color: #3e2b1f;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'CuteFont', cursive;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+  background-image: radial-gradient(ellipse at top left, #fff6e5, #f9ecd5);
+}
+
+.navbar h1 {
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+.navbar p {
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.navbar a {
+  color: #6b4b2b;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: auto;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5e3c3c;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #a06464;
+  margin-left: 10px;
+}
+
+.about-link {
+  font-size: 14px;
+  text-decoration: none;
+  background: #f9c6c9;
+  color: #5e3c3c;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6a9ab;
+  transition: background 0.2s;
+}
+
+.about-link:hover {
+  background: #f6b7bb;
+}
+
+body {
+  font-family: 'Chapbook', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: url('assets/bg.png') no-repeat center center fixed;
+  background-size: cover;
+}
+    .png {
+      position: absolute;
+      width: 100px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .bubble {
+  position: absolute;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid #222;
+  font-size: 16px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  max-width: 200px;
+  transition: transform 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.bubble.melt {
+  animation: meltText 2s ease-in forwards;
+}
+
+/* The melting animation */
+@keyframes meltText {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    filter: blur(0px);
+  }
+  50% {
+    transform: translateY(10px) scaleY(1.2);
+    filter: blur(1px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(60px) scaleY(2.5);
+    filter: blur(4px);
+    opacity: 0;
+  }
+}
+
+/* Cute little triangle (speech bubble tail) */
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #f9c6c9;
+}
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @font-face {
+  font-family: 'CuteFont';
+  src: url('assets/Chapbook-Dingbats.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Chapbook';
+  src: url('assets/fonts/Chapbook-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'Chapbook', cursive, sans-serif;
+  box-sizing: border-box;
+}
+
+@keyframes randomDance {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate(var(--dance-x), var(--dance-y)) rotate(var(--dance-rotate)) scale(var(--dance-scale));
+  }
+  50% {
+    transform: translate(calc(var(--dance-x) * -1), calc(var(--dance-y) * -1)) rotate(calc(var(--dance-rotate) * -1)) scale(1);
+  }
+  75% {
+    transform: translate(var(--dance-x), var(--dance-y)) rotate(var(--dance-rotate)) scale(var(--dance-scale));
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+.png.dance {
+  animation: randomDance var(--dance-duration, 1s) ease-in-out;
+}
+
+.png {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none; /* hide when invisible */
+}
+
+.png.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.smoke {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 10;
+  pointer-events: none;
+  animation: smokeFade 1.4s ease-out forwards;
+}
+
+@keyframes smokeFade {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+          <div class="title">
+            The Creatures of Swamp Bundle
+          </div>
+          <div class="subtitle">
+            <br>
+            On a chilly spring day in Cambridge, the swamp is chittering with life! Click a creature to hear what they have to say...
+            <br>
+          </div>
+          <br>
+          <a href="about.html" class="about-link">About</a>
+        </div>
+      </nav>
+  <script>
+   const pngs = [
+  { src: 'assets/creatures/us.png', message: 'Here we are, cold and bundled by the Charles' },
+  { src: 'assets/creatures/sun.png', message: 'Goooooooooooooooood Morning Charlie!' },
+  { src: 'assets/creatures/birdo.png' ,message: 'I squack and squaw, catching the early worm and a glimpse of future worlds' },
+  { src: 'assets/creatures/owl.png', message: 'Hoot!' },
+  { src: 'assets/creatures/lilguy.png', message: 'I’m a kiwi!' },
+  { src: 'assets/creatures/antlered_grey_puff.png', message: 'I’m a kiwi!' },
+  { src: 'assets/creatures/jellyblob.png', message: 'I’m a kiwi!' },
+  { src: 'assets/creatures/seanceblob.png', message: 'Unformed futures bubble from this AI goop' },
+  { src: 'assets/creatures/zizzy.png', message: 'I fly so high but do not worry I will not block out the sun' },
+  { src: 'assets/creatures/jitterbug.png', message: 'Do the jitterbug! Be the jitterbug! ' },
+  { src: 'assets/creatures/rabbo.png', message: 'Rabbits abound in the month of April. A photo of softness, I feel a bit out of place in this digital world...' }
+
+];
+
+const creatures = [];
+
+pngs.forEach((imgData) => {
+  const img = document.createElement('img');
+  img.src = imgData.src;
+  img.className = 'png';
+  document.body.appendChild(img);
+
+  const creature = {
+    el: img,
+    x: Math.max(100,Math.random() *  window.innerWidth - 100),
+    y: Math.max(100,Math.random() * window.innerHeight - 100),
+    vx: 0,
+    vy: 0,
+    message: imgData.message,
+    moving: true,
+    waitTime: 0,
+    moveTimer: 0,
+  };
+
+  // Initial random direction
+  setNewDirection(creature);
+
+  img.addEventListener('click', () => {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = creature.message;
+    document.body.appendChild(bubble);
+
+    const rect = img.getBoundingClientRect();
+    bubble.style.left = `${rect.right + 10}px`;
+    bubble.style.top = `${rect.top + rect.height / 2 - 20}px`;
+
+    setTimeout(() => {
+    bubble.classList.add('melt');
+    setTimeout(() => bubble.remove(), 2000);
+  }, 1500);
+  // 🪩 DANCE TIME
+  const scale = (Math.random() * 0.5 + 1).toFixed(2);
+  const rotate = (Math.random() * 360 - 180).toFixed(0);
+  const xMove = (Math.random() * 60 - 30).toFixed(0);
+  const yMove = (Math.random() * 60 - 30).toFixed(0);
+  const duration = (Math.random() * 0.6 + 0.6).toFixed(2);
+
+  img.style.setProperty('--dance-scale', scale);
+  img.style.setProperty('--dance-rotate', `${rotate}deg`);
+  img.style.setProperty('--dance-x', `${xMove}px`);
+  img.style.setProperty('--dance-y', `${yMove}px`);
+  img.style.setProperty('--dance-duration', `${duration}s`);
+
+  img.classList.add('dance');
+  setTimeout(() => img.classList.remove('dance'), duration * 1000);
+
+  });
+  
+  creatures.push(creature);
+});
+
+function setNewDirection(creature) {
+  const speed = Math.random();
+  const angle = Math.random() * Math.PI * 2;
+  creature.vx = Math.cos(angle) * speed;
+  creature.vy = Math.sin(angle) * speed;
+  creature.moveTimer = Math.random() * 200; // move for a while
+  creature.moving = true;
+}
+
+function animateCreatures() {
+  creatures.forEach((c) => {
+    if (c.moving) {
+      c.x += c.vx;
+      c.y += c.vy;
+      c.moveTimer--;
+
+      // Bounce off edges
+      if (c.x < 0 || c.x > window.innerWidth - 100) c.vx *= -1;
+      if (c.y < 0 || c.y > window.innerHeight - 100) c.vy *= -1;
+
+      if (c.moveTimer <= 0) {
+        c.moving = false;
+        c.waitTime = Math.random() * 120 + 60; // pause for a bit
+      }
+    } else {
+      c.waitTime--;
+      if (c.waitTime <= 0) {
+        setNewDirection(c);
+      }
+    }
+
+    // Smooth style updates
+    c.el.style.left = `${c.x}px`;
+    c.el.style.top = `${c.y}px`;
+  });
+
+  requestAnimationFrame(animateCreatures);
+}
+
+animateCreatures();
+const allCreatures = Array.from(document.querySelectorAll('.png'));
+
+// STEP 1: Instantly show only the first creature
+const firstCreature = allCreatures[0];
+firstCreature.classList.add('visible');
+
+// STEP 2: After 5 seconds, start fading in the rest of the creatures (in order)
+setTimeout(() => {
+  for (let i = 1; i < allCreatures.length; i++) {  // Start with the second creature
+    const creature = allCreatures[i];
+    const delay = Math.random() * 25000 + 4000;  // Random delay between 3s–23s for each creature
+
+    setTimeout(() => {
+      showCreatureWithSmoke(creature);  // Function to fade in and add smoke
+    }, delay);
+  }
+}, 5000);  // Delay before the fade-in sequence starts
+
+// FUNCTION: Fade in a creature + add smoke
+function showCreatureWithSmoke(creature) {
+  creature.classList.add('visible');  // Make the creature visible
+
+  // Create smoke div
+  const smoke = document.createElement('div');
+  smoke.classList.add('smoke');
+
+  // Get creature's position for smoke placement
+  const rect = creature.getBoundingClientRect();
+
+  // Position the smoke in the center of the creature
+  smoke.style.left = `${rect.left + rect.width / 2 - 30}px`;
+  smoke.style.top = `${rect.top + rect.height / 2 - 30}px`;
+
+  // Add the smoke to the body
+  document.body.appendChild(smoke);
+
+  // Remove smoke after its animation completes
+  setTimeout(() => {
+    smoke.remove();
+  }, 1500);
+}
+
+
+
+
+
+
+    
+  </script>
+</body>
+</html>
