@@ -243,7 +243,7 @@ body {
           </div>
           <div class="subtitle">
             <br>
-            On a chilly spring day in Cambridge, the swamp is chittering with life! Click a creature to hear what they have to say...
+            On a chilly spring day in Cambridge, the swamp is chittering with life! New entrants emerge over time. Click a creature to hear what they have to say...
             <br>
           </div>
           <br>
@@ -252,17 +252,17 @@ body {
       </nav>
   <script>
    const pngs = [
-  { src: 'assets/creatures/us.png', message: 'Here we are, cold and bundled by the Charles' },
+  { src: 'assets/creatures/us.png', message: 'Here we are, cold and bundled together by the Charles. Soon summer will warm our bones.' },
   { src: 'assets/creatures/sun.png', message: 'Goooooooooooooooood Morning Charlie!' },
   { src: 'assets/creatures/birdo.png' ,message: 'I squack and squaw, catching the early worm and a glimpse of future worlds' },
-  { src: 'assets/creatures/owl.png', message: 'Hoot!' },
-  { src: 'assets/creatures/lilguy.png', message: 'I’m a kiwi!' },
-  { src: 'assets/creatures/antlered_grey_puff.png', message: 'I’m a kiwi!' },
-  { src: 'assets/creatures/jellyblob.png', message: 'I’m a kiwi!' },
-  { src: 'assets/creatures/seanceblob.png', message: 'Unformed futures bubble from this AI goop' },
-  { src: 'assets/creatures/zizzy.png', message: 'I fly so high but do not worry I will not block out the sun' },
+  { src: 'assets/creatures/owl.png', message: 'Hoot! a silhouette in flight, the clear white sweep of me, tufted ears and round orange head. I know I am beautiful' },
+  { src: 'assets/creatures/lilguy.png', message: 'I was trying to love matter. I taped a sign over the mirror: You cannot hate matter and love form.' },
+  { src: 'assets/creatures/antlered_grey_puff.png', message: 'Obedience 7. Agility 5.5. I am the antlered grey puff' },
+  { src: 'assets/creatures/jellyblob.png', message: 'Obedience 5. Agility 9. I am the long-haired jellyblob. I shoot ink and swim fast.' },
+  { src: 'assets/creatures/seanceblob.png', message: 'Unformed futures bubble from the headwaters of AI goopland' },
+  { src: 'assets/creatures/zizzy.png', message: 'I fly so high but do not worry I will not block out your sun:)' },
   { src: 'assets/creatures/jitterbug.png', message: 'Do the jitterbug! Be the jitterbug! ' },
-  { src: 'assets/creatures/rabbo.png', message: 'Rabbits abound in the month of April. A photo of softness, I feel a bit out of place in this digital world...' }
+  { src: 'assets/creatures/rabbo.png', message: 'Rabbits abound in the month of April. A portrait of softness, I feel a bit out of place in this digital world...' }
 
 ];
 
@@ -374,7 +374,7 @@ firstCreature.classList.add('visible');
 setTimeout(() => {
   for (let i = 1; i < allCreatures.length; i++) {  // Start with the second creature
     const creature = allCreatures[i];
-    const delay = Math.random() * 25000 + 4000;  // Random delay between 3s–23s for each creature
+    const delay = Math.random() * 30000 + 1000 + i * i * 200;  // Random delay between 3s–23s for each creature
 
     setTimeout(() => {
       showCreatureWithSmoke(creature);  // Function to fade in and add smoke
